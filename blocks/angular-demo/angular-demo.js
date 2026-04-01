@@ -1,199 +1,78 @@
 /* eslint-disable */
 
-import * as __WEBPACK_EXTERNAL_MODULE__scripts_aem_js_52240b32__ from "../../scripts/aem.js";
-import * as __WEBPACK_EXTERNAL_MODULE__fragment_fragment_js_957d78f1__ from "../fragment/fragment.js";
 /******/ var __webpack_modules__ = ({
 
-/***/ "./angular-app/app/header/header.component.ts":
-/*!****************************************************!*\
-  !*** ./angular-app/app/header/header.component.ts ***!
-  \****************************************************/
+/***/ "./angular-app/app/angular-demo/angular-demo.component.ts":
+/*!****************************************************************!*\
+  !*** ./angular-app/app/angular-demo/angular-demo.component.ts ***!
+  \****************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   HeaderComponent: () => (/* binding */ HeaderComponent),
-/* harmony export */   detachHeaderNav: () => (/* binding */ detachHeaderNav),
-/* harmony export */   initHeaderNav: () => (/* binding */ initHeaderNav)
+/* harmony export */   AngularDemoComponent: () => (/* binding */ AngularDemoComponent)
 /* harmony export */ });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2022/core.mjs");
-/* harmony import */ var _eds_scripts_aem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @eds/scripts/aem */ "@eds/scripts/aem");
-/* harmony import */ var _eds_blocks_fragment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @eds/blocks/fragment */ "@eds/blocks/fragment");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2022/core.mjs");
+/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs");
+/* harmony import */ var _shared_block_tokens__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../shared/block-tokens */ "./angular-app/shared/block-tokens.ts");
 
 
 
 
-const isDesktop = window.matchMedia('(min-width: 900px)');
-function closeOnEscape(e) {
-    if (e.code !== 'Escape')
-        return;
-    const nav = document.getElementById('nav');
-    if (!nav)
-        return;
-    const navSections = nav.querySelector('.nav-sections');
-    if (!navSections)
-        return;
-    const navSectionExpanded = navSections.querySelector('[aria-expanded="true"]');
-    if (navSectionExpanded && isDesktop.matches) {
-        toggleAllNavSections(navSections);
-        navSectionExpanded.focus();
-    }
-    else if (!isDesktop.matches) {
-        toggleMenu(nav, navSections);
-        nav.querySelector('button')?.focus();
-    }
-}
-function closeOnFocusLost(e) {
-    const nav = e.currentTarget;
-    if (nav.contains(e.relatedTarget))
-        return;
-    const navSections = nav.querySelector('.nav-sections');
-    if (!navSections)
-        return;
-    const navSectionExpanded = navSections.querySelector('[aria-expanded="true"]');
-    if (navSectionExpanded && isDesktop.matches) {
-        toggleAllNavSections(navSections, false);
-    }
-    else if (!isDesktop.matches) {
-        toggleMenu(nav, navSections, false);
-    }
-}
-function openOnKeydown(e) {
-    const focused = document.activeElement;
-    if (!focused || !focused.classList.contains('nav-drop'))
-        return;
-    if (e.code !== 'Enter' && e.code !== 'Space')
-        return;
-    const dropExpanded = focused.getAttribute('aria-expanded') === 'true';
-    const sections = focused.closest('.nav-sections');
-    if (sections)
-        toggleAllNavSections(sections);
-    focused.setAttribute('aria-expanded', dropExpanded ? 'false' : 'true');
-}
-function focusNavSection() {
-    this.addEventListener('keydown', openOnKeydown);
-}
-function toggleAllNavSections(sections, expanded = false) {
-    if (!sections)
-        return;
-    sections.querySelectorAll('.nav-sections .default-content-wrapper > ul > li').forEach((section) => {
-        section.setAttribute('aria-expanded', String(expanded));
-    });
-}
-function toggleMenu(nav, navSections, forceExpanded = null) {
-    const expanded = forceExpanded !== null ? !forceExpanded : nav.getAttribute('aria-expanded') === 'true';
-    const button = nav.querySelector('.nav-hamburger button');
-    document.body.style.overflowY = (expanded || isDesktop.matches) ? '' : 'hidden';
-    nav.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-    toggleAllNavSections(navSections, (expanded || isDesktop.matches) ? 'false' : 'true');
-    if (button) {
-        button.setAttribute('aria-label', expanded ? 'Open navigation' : 'Close navigation');
-    }
-    if (navSections) {
-        const navDrops = navSections.querySelectorAll('.nav-drop');
-        if (isDesktop.matches) {
-            navDrops.forEach((drop) => {
-                if (!drop.hasAttribute('tabindex')) {
-                    drop.setAttribute('tabindex', '0');
-                    drop.addEventListener('focus', focusNavSection);
-                }
-            });
-        }
-        else {
-            navDrops.forEach((drop) => {
-                drop.removeAttribute('tabindex');
-                drop.removeEventListener('focus', focusNavSection);
-            });
-        }
-    }
-    if (!expanded || isDesktop.matches) {
-        window.addEventListener('keydown', closeOnEscape);
-        nav.addEventListener('focusout', closeOnFocusLost);
-    }
-    else {
-        window.removeEventListener('keydown', closeOnEscape);
-        nav.removeEventListener('focusout', closeOnFocusLost);
-    }
-}
-let resizeHandler;
-/** Remove resize listener and clear the host (for re-decorate / teardown). */
-function detachHeaderNav(host) {
-    if (resizeHandler) {
-        isDesktop.removeEventListener('change', resizeHandler);
-        resizeHandler = undefined;
-    }
-    host.replaceChildren();
-}
-/**
- * Port of blocks/header/header.js decorate(): load nav fragment, build DOM, wire menus.
- */
-async function initHeaderNav(host) {
-    detachHeaderNav(host);
-    const navMeta = (0,_eds_scripts_aem__WEBPACK_IMPORTED_MODULE_0__.getMetadata)('nav');
-    const navPath = navMeta ? new URL(navMeta, window.location.href).pathname : '/nav';
-    const fragment = await (0,_eds_blocks_fragment__WEBPACK_IMPORTED_MODULE_1__.loadFragment)(navPath);
-    if (!fragment)
-        return;
-    const nav = document.createElement('nav');
-    nav.id = 'nav';
-    while (fragment.firstElementChild)
-        nav.append(fragment.firstElementChild);
-    const classes = ['brand', 'sections', 'tools'];
-    classes.forEach((c, i) => {
-        const section = nav.children[i];
-        if (section)
-            section.classList.add(`nav-${c}`);
-    });
-    const navBrand = nav.querySelector('.nav-brand');
-    const brandLink = navBrand?.querySelector('.button');
-    if (brandLink) {
-        brandLink.className = '';
-        const container = brandLink.closest('.button-container');
-        if (container)
-            container.className = '';
-    }
-    const navSections = nav.querySelector('.nav-sections');
-    if (navSections) {
-        navSections.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((navSection) => {
-            if (navSection.querySelector('ul'))
-                navSection.classList.add('nav-drop');
-            navSection.addEventListener('click', () => {
-                if (isDesktop.matches) {
-                    const exp = navSection.getAttribute('aria-expanded') === 'true';
-                    toggleAllNavSections(navSections);
-                    navSection.setAttribute('aria-expanded', exp ? 'false' : 'true');
-                }
-            });
+function AngularDemoComponent_Conditional_3_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelement"](0, "div", 2);
+} if (rf & 2) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("innerHTML", ctx, _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵsanitizeHtml"]);
+} }
+function AngularDemoComponent_Conditional_4_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "p", 3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](1, "No authored content in this block.");
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+} }
+const DEFAULT_HEADING = 'Angular EDS block';
+class AngularDemoComponent {
+    constructor() {
+        this.sanitizer = (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.inject)(_angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__.DomSanitizer);
+        this.authoredHtml = (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.inject)(_shared_block_tokens__WEBPACK_IMPORTED_MODULE_0__.EDS_BLOCK_HTML, { optional: true });
+        /** First `<p>` text in authored markup, or default when missing. */
+        this.authoredHeading = (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.computed)(() => {
+            const raw = this.authoredHtml?.trim();
+            if (!raw)
+                return DEFAULT_HEADING;
+            const doc = new DOMParser().parseFromString(raw, 'text/html');
+            const text = doc.body.querySelector('p')?.textContent?.trim();
+            return text || DEFAULT_HEADING;
+        });
+        /** Remaining authored markup after the first `<p>` is removed (avoids duplicating the heading). */
+        this.safeAuthoredBody = (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.computed)(() => {
+            const raw = this.authoredHtml?.trim();
+            if (!raw)
+                return null;
+            const doc = new DOMParser().parseFromString(raw, 'text/html');
+            const firstP = doc.body.querySelector('p');
+            if (firstP) {
+                firstP.remove();
+            }
+            const inner = doc.body.innerHTML.trim();
+            if (!inner)
+                return null;
+            return this.sanitizer.bypassSecurityTrustHtml(inner);
         });
     }
-    const hamburger = document.createElement('div');
-    hamburger.classList.add('nav-hamburger');
-    hamburger.innerHTML = `<button type="button" aria-controls="nav" aria-label="Open navigation">
-      <span class="nav-hamburger-icon"></span>
-    </button>`;
-    hamburger.addEventListener('click', () => toggleMenu(nav, navSections));
-    nav.prepend(hamburger);
-    nav.setAttribute('aria-expanded', 'false');
-    toggleMenu(nav, navSections, isDesktop.matches);
-    resizeHandler = () => toggleMenu(nav, navSections, isDesktop.matches);
-    isDesktop.addEventListener('change', resizeHandler);
-    const navWrapper = document.createElement('div');
-    navWrapper.className = 'nav-wrapper';
-    navWrapper.append(nav);
-    host.append(navWrapper);
-}
-class HeaderComponent {
-    constructor() {
-        this.el = (0,_angular_core__WEBPACK_IMPORTED_MODULE_2__.inject)((_angular_core__WEBPACK_IMPORTED_MODULE_2__.ElementRef));
-    }
-    ngOnInit() {
-        void initHeaderNav(this.el.nativeElement);
-    }
-    ngOnDestroy() {
-        detachHeaderNav(this.el.nativeElement);
-    }
-    static { this.ɵfac = function HeaderComponent_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || HeaderComponent)(); }; }
-    static { this.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineComponent"]({ type: HeaderComponent, selectors: [["app-header-block"]], decls: 0, vars: 0, template: function HeaderComponent_Template(rf, ctx) { }, styles: ["\n/* header and nav layout */\nheader .nav-wrapper {\n  background-color: var(--background-color);\n  width: 100%;\n  z-index: 2;\n  position: fixed;\n}\n\nheader nav {\n  box-sizing: border-box;\n  display: grid;\n  grid-template: \"hamburger brand tools\" var(--nav-height) \"sections sections sections\" 1fr/auto 1fr auto;\n  align-items: center;\n  gap: 0 24px;\n  margin: auto;\n  max-width: 1248px;\n  height: var(--nav-height);\n  padding: 0 24px;\n  font-family: var(--body-font-family);\n}\n\nheader nav[aria-expanded=true] {\n  grid-template: \"hamburger brand\" var(--nav-height) \"sections sections\" 1fr \"tools tools\" var(--nav-height)/auto 1fr;\n  overflow-y: auto;\n  min-height: 100dvh;\n}\n\n@media (width >= 900px) {\n  header .nav-wrapper {\n    position: relative;\n  }\n  header nav {\n    display: flex;\n    justify-content: space-between;\n    gap: 0 32px;\n    max-width: 1264px;\n    padding: 0 32px;\n  }\n  header nav[aria-expanded=true] {\n    min-height: 0;\n    overflow: visible;\n  }\n}\nheader nav p {\n  margin: 0;\n  line-height: 1;\n}\n\nheader nav a:any-link {\n  color: currentcolor;\n}\n\n/* hamburger */\nheader nav .nav-hamburger {\n  grid-area: hamburger;\n  height: 22px;\n  display: flex;\n  align-items: center;\n}\n\nheader nav .nav-hamburger button {\n  height: 22px;\n  margin: 0;\n  border: 0;\n  border-radius: 0;\n  padding: 0;\n  background-color: var(--background-color);\n  color: inherit;\n  overflow: initial;\n  text-overflow: initial;\n  white-space: initial;\n}\n\nheader nav .nav-hamburger-icon,\nheader nav .nav-hamburger-icon::before,\nheader nav .nav-hamburger-icon::after {\n  box-sizing: border-box;\n  display: block;\n  position: relative;\n  width: 20px;\n}\n\nheader nav .nav-hamburger-icon::before,\nheader nav .nav-hamburger-icon::after {\n  content: \"\";\n  position: absolute;\n  background: currentcolor;\n}\n\nheader nav[aria-expanded=false] .nav-hamburger-icon,\nheader nav[aria-expanded=false] .nav-hamburger-icon::before,\nheader nav[aria-expanded=false] .nav-hamburger-icon::after {\n  height: 2px;\n  border-radius: 2px;\n  background: currentcolor;\n}\n\nheader nav[aria-expanded=false] .nav-hamburger-icon::before {\n  top: -6px;\n}\n\nheader nav[aria-expanded=false] .nav-hamburger-icon::after {\n  top: 6px;\n}\n\nheader nav[aria-expanded=true] .nav-hamburger-icon {\n  height: 22px;\n}\n\nheader nav[aria-expanded=true] .nav-hamburger-icon::before,\nheader nav[aria-expanded=true] .nav-hamburger-icon::after {\n  top: 3px;\n  left: 1px;\n  transform: rotate(45deg);\n  transform-origin: 2px 1px;\n  width: 24px;\n  height: 2px;\n  border-radius: 2px;\n}\n\nheader nav[aria-expanded=true] .nav-hamburger-icon::after {\n  top: unset;\n  bottom: 3px;\n  transform: rotate(-45deg);\n}\n\n@media (width >= 900px) {\n  header nav .nav-hamburger {\n    display: none;\n    visibility: hidden;\n  }\n}\n/* brand */\nheader .nav-brand {\n  grid-area: brand;\n  flex-basis: 128px;\n  font-size: var(--heading-font-size-s);\n  font-weight: 700;\n  line-height: 1;\n}\n\nheader nav .nav-brand img {\n  width: 128px;\n  height: auto;\n}\n\n/* sections */\nheader nav .nav-sections {\n  grid-area: sections;\n  flex: 1 1 auto;\n  display: none;\n  visibility: hidden;\n}\n\nheader nav[aria-expanded=true] .nav-sections {\n  display: block;\n  visibility: visible;\n  align-self: start;\n}\n\nheader nav .nav-sections ul {\n  list-style: none;\n  padding-left: 0;\n  font-size: var(--body-font-size-s);\n}\n\nheader nav .nav-sections ul > li {\n  font-weight: 500;\n}\n\nheader nav .nav-sections ul > li > ul {\n  margin-top: 0;\n}\n\nheader nav .nav-sections ul > li > ul > li {\n  font-weight: 400;\n}\n\n@media (width >= 900px) {\n  header nav .nav-sections {\n    display: block;\n    visibility: visible;\n    white-space: nowrap;\n  }\n  header nav[aria-expanded=true] .nav-sections {\n    align-self: unset;\n  }\n  header nav .nav-sections .nav-drop {\n    position: relative;\n    padding-right: 16px;\n    cursor: pointer;\n  }\n  header nav .nav-sections .nav-drop::after {\n    content: \"\";\n    display: inline-block;\n    position: absolute;\n    top: 0.5em;\n    right: 2px;\n    transform: rotate(135deg);\n    width: 6px;\n    height: 6px;\n    border: 2px solid currentcolor;\n    border-radius: 0 1px 0 0;\n    border-width: 2px 2px 0 0;\n  }\n  header nav .nav-sections .nav-drop[aria-expanded=true]::after {\n    top: unset;\n    bottom: 0.5em;\n    transform: rotate(315deg);\n  }\n  header nav .nav-sections ul {\n    display: flex;\n    gap: 24px;\n    margin: 0;\n  }\n  header nav .nav-sections .default-content-wrapper > ul > li {\n    flex: 0 1 auto;\n    position: relative;\n  }\n  header nav .nav-sections .default-content-wrapper > ul > li > ul {\n    display: none;\n    position: relative;\n  }\n  header nav .nav-sections .default-content-wrapper > ul > li[aria-expanded=true] > ul {\n    display: block;\n    position: absolute;\n    left: -24px;\n    width: 200px;\n    top: 150%;\n    padding: 16px;\n    background-color: var(--light-color);\n    white-space: initial;\n  }\n  header nav .nav-sections .default-content-wrapper > ul > li > ul::before {\n    content: \"\";\n    position: absolute;\n    top: -8px;\n    left: 16px;\n    width: 0;\n    height: 0;\n    border-left: 8px solid transparent;\n    border-right: 8px solid transparent;\n    border-bottom: 8px solid var(--light-color);\n  }\n  header nav .nav-sections .default-content-wrapper > ul > li > ul > li {\n    padding: 8px 0;\n  }\n}\n/* tools */\nheader nav .nav-tools {\n  grid-area: tools;\n}"], encapsulation: 2 }); }
+    static { this.ɵfac = function AngularDemoComponent_Factory(__ngFactoryType__) { return new (__ngFactoryType__ || AngularDemoComponent)(); }; }
+    static { this.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineComponent"]({ type: AngularDemoComponent, selectors: [["angular-demo-root"]], decls: 5, vars: 2, consts: [[1, "angular-demo-layout"], [1, "angular-demo-title"], [1, "angular-demo-authored", 3, "innerHTML"], [1, "angular-demo-body"]], template: function AngularDemoComponent_Template(rf, ctx) { if (rf & 1) {
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementStart"](0, "section", 0)(1, "h2", 1);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtext"](2);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtemplate"](3, AngularDemoComponent_Conditional_3_Template, 1, 1, "div", 2)(4, AngularDemoComponent_Conditional_4_Template, 2, 0, "p", 3);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementEnd"]();
+        } if (rf & 2) {
+            let tmp_1_0;
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](2);
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtextInterpolate"](ctx.authoredHeading());
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵconditional"]((tmp_1_0 = ctx.safeAuthoredBody()) ? 3 : 4, tmp_1_0);
+        } }, styles: [".angular-demo-authored[_ngcontent-%COMP%] {\n  margin-top: 0.75rem;\n}\n.angular-demo-authored[_ngcontent-%COMP%]   [_ngcontent-%COMP%]:first-child {\n  margin-top: 0;\n}\n\n.angular-demo-layout[_ngcontent-%COMP%] {\n  padding: 1rem 1.25rem;\n  border: 1px solid #c6d4e3;\n  border-radius: 8px;\n  background: linear-gradient(145deg, #f8fafc 0%, #eef2f7 100%);\n}\n\n.angular-demo-title[_ngcontent-%COMP%] {\n  margin: 0 0 0.5rem;\n  font-size: 1.25rem;\n  font-weight: 700;\n}\n\n.angular-demo-body[_ngcontent-%COMP%], \n.angular-demo-config[_ngcontent-%COMP%] {\n  margin: 0.35rem 0 0;\n  line-height: 1.5;\n  font-size: 0.95rem;\n}\n\n.angular-demo-config[_ngcontent-%COMP%] {\n  color: #1d4ed8;\n}"] }); }
 }
 
 
@@ -58119,10 +57998,10 @@ const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.Version('19.2.1')
 
 /***/ }),
 
-/***/ "./angular-app/app/header/header.component.scss":
-/*!******************************************************!*\
-  !*** ./angular-app/app/header/header.component.scss ***!
-  \******************************************************/
+/***/ "./angular-app/app/angular-demo/angular-demo.component.scss":
+/*!******************************************************************!*\
+  !*** ./angular-app/app/angular-demo/angular-demo.component.scss ***!
+  \******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -63386,26 +63265,6 @@ patchBrowser(Zone$1);
 
 /***/ }),
 
-/***/ "@eds/scripts/aem":
-/*!***************************************!*\
-  !*** external "../../scripts/aem.js" ***!
-  \***************************************/
-/***/ ((module) => {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE__scripts_aem_js_52240b32__;
-
-/***/ }),
-
-/***/ "@eds/blocks/fragment":
-/*!******************************************!*\
-  !*** external "../fragment/fragment.js" ***!
-  \******************************************/
-/***/ ((module) => {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE__fragment_fragment_js_957d78f1__;
-
-/***/ }),
-
 /***/ "./node_modules/tslib/tslib.es6.mjs":
 /*!******************************************!*\
   !*** ./node_modules/tslib/tslib.es6.mjs ***!
@@ -63922,31 +63781,31 @@ function __rewriteRelativeImportExtension(path, preserveJsx) {
 /******/ 
 /************************************************************************/
 var __webpack_exports__ = {};
-/*!*****************************************!*\
-  !*** ./angular-app/app/header/index.ts ***!
-  \*****************************************/
+/*!***********************************************!*\
+  !*** ./angular-app/app/angular-demo/index.ts ***!
+  \***********************************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ decorate)
 /* harmony export */ });
 /* harmony import */ var zone_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! zone.js */ "./node_modules/zone.js/fesm2015/zone.js");
 /* harmony import */ var zone_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(zone_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _header_component_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./header.component.scss */ "./angular-app/app/header/header.component.scss");
+/* harmony import */ var _angular_demo_component_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./angular-demo.component.scss */ "./angular-app/app/angular-demo/angular-demo.component.scss");
 /* harmony import */ var _shared_decorate_with_standalone_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../shared/decorate-with-standalone-component */ "./angular-app/shared/decorate-with-standalone-component.ts");
-/* harmony import */ var _header_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./header.component */ "./angular-app/app/header/header.component.ts");
+/* harmony import */ var _angular_demo_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./angular-demo.component */ "./angular-app/app/angular-demo/angular-demo.component.ts");
 
-/* Side effect: extracted to blocks/header/header.css (aem loadCSS). */
+/* Side effect: extracted to blocks/angular-demo/angular-demo.css (aem loadCSS). */
 
 
 
 /**
  * Standard EDS block contract: default export decorate(block).
+ * aem.js loadBlock imports this module and calls await mod.default(block).
  */
 async function decorate(block) {
     await (0,_shared_decorate_with_standalone_component__WEBPACK_IMPORTED_MODULE_2__.decorateWithStandaloneComponent)(block, undefined, {
-        component: _header_component__WEBPACK_IMPORTED_MODULE_3__.HeaderComponent,
-        hostClassName: 'header-block-host',
-        passAuthoredHtml: false,
+        component: _angular_demo_component__WEBPACK_IMPORTED_MODULE_3__.AngularDemoComponent,
+        hostClassName: 'angular-demo-host',
     });
 }
 

@@ -1,0 +1,8 @@
+<section class="angular-demo-layout">
+  <h2 class="angular-demo-title">{{ authoredHeading() }}</h2>
+  @if (safeAuthoredBody(); as html) {
+    <div class="angular-demo-authored" [innerHTML]="html"></div>
+  } @else {
+    <p class="angular-demo-body">No authored content in this block.</p>
+  }
+</section>

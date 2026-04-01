@@ -1,2 +1,5 @@
 helix-importer-ui
 *.min.js
+angular-app/
+dist/
+webpack.angular.config.cjs

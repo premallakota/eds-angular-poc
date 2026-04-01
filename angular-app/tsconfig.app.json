@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist/out-tsc/app",
+    "types": [],
+    "baseUrl": ".",
+    "paths": {
+      "@eds/scripts/aem": ["../scripts/aem.js"],
+      "@eds/blocks/fragment": ["../blocks/fragment/fragment.js"]
+    }
+  },
+  "files": [],
+  "include": ["app/**/*.ts", "shared/**/*.ts", "eds-imports.d.ts"]
+}

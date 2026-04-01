@@ -7,7 +7,11 @@
     "lint:js": "eslint .",
     "lint:css": "stylelint \"blocks/**/*.css\" \"styles/*.css\"",
     "lint": "npm run lint:js && npm run lint:css",
-    "lint:fix": "npm run lint:js -- --fix && npm run lint:css -- --fix"
+    "lint:fix": "npm run lint:js -- --fix && npm run lint:css -- --fix",
+    "angular:build": "webpack --config webpack.angular.config.cjs --mode production",
+    "angular:watch": "webpack --config webpack.angular.config.cjs --mode development --watch",
+    "angular:start": "WEBPACK_SERVE=true webpack serve --config webpack.angular.config.cjs --mode development",
+    "dev:angular": "concurrently -k -n aem,webpack -c blue,magenta \"npx -y @adobe/aem-cli up --no-open\" \"npm run angular:watch\""
   },
   "repository": {
     "type": "git",
@@ -20,11 +24,34 @@
   },
   "homepage": "https://github.com/adobe/aem-boilerplate#readme",
   "devDependencies": {
+    "@babel/core": "7.26.9",
+    "@angular/common": "19.2.1",
+    "@angular/compiler": "19.2.1",
+    "@angular/compiler-cli": "19.2.1",
+    "@angular/core": "19.2.1",
+    "@angular/platform-browser": "19.2.1",
     "@babel/eslint-parser": "7.28.6",
+    "babel-loader": "9.2.1",
+    "@ngtools/webpack": "19.2.1",
+    "concurrently": "9.1.2",
+    "copyfiles": "2.4.1",
+    "css-loader": "6.10.0",
+    "css-minimizer-webpack-plugin": "6.0.0",
+    "dotenv": "16.4.7",
     "eslint": "8.57.1",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-plugin-import": "2.32.0",
+    "mini-css-extract-plugin": "2.9.1",
+    "rxjs": "7.8.1",
+    "sass": "1.85.0",
+    "sass-loader": "16.0.4",
     "stylelint": "17.6.0",
-    "stylelint-config-standard": "40.0.0"
+    "stylelint-config-standard": "40.0.0",
+    "terser-webpack-plugin": "5.3.11",
+    "typescript": "5.7.3",
+    "webpack": "5.93.0",
+    "webpack-cli": "5.1.4",
+    "webpack-dev-server": "5.0.4",
+    "zone.js": "0.15.0"
   }
 }
