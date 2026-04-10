@@ -35,6 +35,7 @@ function buildHeroBlock(main) {
  * load fonts.css and set a session storage flag
  */
 async function loadFonts() {
+  await loadCSS('https://www.cisco.com/c/dam/cdc/ui/atm/3-11-0/fonts/atmosphere-fonts.css');
   await loadCSS(`${window.hlx.codeBasePath}/styles/fonts.css`);
   try {
     if (!window.location.hostname.includes('localhost')) sessionStorage.setItem('fonts-loaded', 'true');
